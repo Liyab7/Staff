@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inclusive Vision 2030 — empowerAbility Org</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --primary: #3a1d8e;
+      --primary-dark: #2a1066;
+      --accent: #f5c518;
+      --accent-hover: #e6b800;
+      --bg-gradient-start: #1a0a4a;
+      --bg-gradient-mid: #3a1d8e;
+      --bg-gradient-end: #5b2fc9;
+      --text-light: #ffffff;
+      --text-muted: #c4b5e3;
+      --card-bg: rgba(255, 255, 255, 0.06);
+      --card-border: rgba(255, 255, 255, 0.12);
+      --input-bg: rgba(255, 255, 255, 0.08);
+      --input-border: rgba(255, 255, 255, 0.18);
+      --input-focus: rgba(245, 197, 24, 0.5);
+      --success-bg: #0d7a3e;
+      --error-bg: #c0392b;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(160deg, var(--bg-gradient-start) 0%, var(--bg-gradient-mid) 40%, var(--bg-gradient-end) 100%);
+      color: var(--text-light);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: -50%;
+      right: -30%;
+      width: 80vw;
+      height: 80vw;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(245, 197, 24, 0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      bottom: -40%;
+      left: -20%;
+      width: 60vw;
+      height: 60vw;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(91, 47, 201, 0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 640px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ─── Header ─── */
+    .header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .org-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 2rem;
+      padding: 0.45rem 1.2rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+      backdrop-filter: blur(8px);
+    }
+
+    .org-badge .icon {
+      font-size: 1.1rem;
+    }
+
+    .header h1 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: clamp(2rem, 5vw, 2.8rem);
+      line-height: 1.15;
+      margin-bottom: 0.75rem;
+    }
+
+    .header h1 .accent {
+      color: var(--accent);
+    }
+
+    .event-meta {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem 1.25rem;
+      margin-top: 1rem;
+    }
+
+    .event-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .event-meta .dot {
+      color: var(--accent);
+      font-size: 1.2rem;
+      line-height: 1;
+    }
+
+    .subtitle {
+      margin-top: 1.25rem;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ─── Card ─── */
+    .form-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 1.25rem;
+      padding: 2.5rem 2rem;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.25);
+    }
+
+    /* ─── Section Labels ─── */
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .section-label .bar {
+      width: 4px;
+      height: 1.4rem;
+      border-radius: 2px;
+      background: var(--accent);
+    }
+
+    .section-label h2 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    /* ─── Inputs ─── */
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .form-group.full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      border: 1.5px solid var(--input-border);
+      border-radius: 0.65rem;
+      background: var(--input-bg);
+      color: var(--text-light);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+      outline: none;
+    }
+
+    input::placeholder, textarea::placeholder {
+      color: rgba(255, 255, 255, 0.3);
+    }
+
+    input:focus, textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--input-focus);
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 150px;
+      line-height: 1.6;
+    }
+
+    .char-count {
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.35);
+      text-align: right;
+      margin-top: -0.25rem;
+    }
+
+    /* ─── Divider ─── */
+    .divider {
+      border: none;
+      height: 1px;
+      background: var(--card-border);
+      margin: 1.75rem 0;
+    }
+
+    /* ─── Button ─── */
+    .btn-submit {
+      width: 100%;
+      padding: 1rem;
+      border: none;
+      border-radius: 0.65rem;
+      background: var(--accent);
+      color: var(--primary-dark);
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-submit:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(245, 197, 24, 0.25);
+    }
+
+    .btn-submit:active {
+      transform: translateY(0);
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-submit .spinner {
+      display: none;
+      width: 20px;
+      height: 20px;
+      border: 2.5px solid rgba(42, 16, 102, 0.3);
+      border-top-color: var(--primary-dark);
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      margin: 0 auto;
+    }
+
+    .btn-submit.loading .btn-text { display: none; }
+    .btn-submit.loading .spinner { display: inline-block; }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ─── Toast ─── */
+    .toast {
+      position: fixed;
+      top: 1.5rem;
+      right: 1.5rem;
+      padding: 1rem 1.5rem;
+      border-radius: 0.75rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #fff;
+      opacity: 0;
+      transform: translateY(-1rem);
+      transition: opacity 0.35s, transform 0.35s;
+      z-index: 100;
+      max-width: 380px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    .toast.success { background: var(--success-bg); }
+    .toast.error { background: var(--error-bg); }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─── Success overlay ─── */
+    .success-overlay {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 3rem 2rem;
+    }
+
+    .success-overlay.active {
+      display: flex;
+    }
+
+    .success-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: rgba(245, 197, 24, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+      animation: popIn 0.4s ease;
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0); }
+      70% { transform: scale(1.15); }
+      100% { transform: scale(1); }
+    }
+
+    .success-overlay h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .success-overlay p {
+      color: var(--text-muted);
+      line-height: 1.6;
+      max-width: 360px;
+    }
+
+    .btn-another {
+      margin-top: 1.5rem;
+      padding: 0.7rem 1.5rem;
+      border: 1.5px solid var(--accent);
+      border-radius: 0.5rem;
+      background: transparent;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .btn-another:hover {
+      background: var(--accent);
+      color: var(--primary-dark);
+    }
+
+    /* ─── Footer ─── */
+    .footer {
+      text-align: center;
+      margin-top: 2rem;
+      font-size: 0.78rem;
+      color: rgba(255, 255, 255, 0.3);
+      line-height: 1.5;
+    }
+
+    .footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .footer .tagline {
+      margin-top: 0.5rem;
+      font-weight: 600;
+      color: var(--accent);
+      font-size: 0.82rem;
+    }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 520px) {
+      .form-row { grid-template-columns: 1fr; }
+      .form-card { padding: 2rem 1.25rem; }
+      body { padding: 1.5rem 0.75rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="org-badge">
+        <span class="icon">&#9994;</span>
+        empowerAbility Org &middot; Enabled Ability
+      </div>
+      <h1>
+        Inclusive Vision <span class="accent">2030</span>
+      </h1>
+      <div class="event-meta">
+        <span><span class="dot">&bull;</span> Tues. 24th March</span>
+        <span><span class="dot">&bull;</span> British Council, Accra</span>
+        <span><span class="dot">&bull;</span> 10:00 AM – 4:00 PM</span>
+      </div>
+      <p class="subtitle">
+        Ghana's Inclusive Future — Empowering PWDs in Agribusiness, Technology, and Health. Share your vision for an inclusive Ghana by 2030.
+      </p>
+    </header>
+
+    <!-- Form Card -->
+    <div class="form-card">
+      <form id="visionForm">
+        <!-- Section 1: Personal Info -->
+        <div class="section-label">
+          <div class="bar"></div>
+          <h2>Your Information</h2>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" name="firstName" placeholder="e.g. Kwame" required />
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" placeholder="you@example.com" required />
+          </div>
+        </div>
+
+        <hr class="divider" />
+
+        <!-- Section 2: Vision Statement -->
+        <div class="section-label">
+          <div class="bar"></div>
+          <h2>What Will Be Your Ghana's Inclusive Future for 2030?</h2>
+        </div>
+
+        <div class="form-group">
+          <textarea
+            id="inclusiveVision"
+            name="inclusiveVision"
+            placeholder="Share your ideas on how Ghana can build a more inclusive future for persons with disabilities across agribusiness, technology, and health..."
+            maxlength="2000"
+            required
+          ></textarea>
+          <div class="char-count"><span id="charCount">0</span> / 2,000</div>
+        </div>
+
+        <button type="submit" class="btn-submit">
+          <span class="btn-text">Submit Your Vision</span>
+          <span class="spinner"></span>
+        </button>
+      </form>
+
+      <!-- Success state -->
+      <div class="success-overlay" id="successOverlay">
+        <div class="success-icon">&#10003;</div>
+        <h3>Thank You!</h3>
+        <p>Your vision for Ghana's inclusive future has been received. Together, we move from awareness to <strong>action</strong>.</p>
+        <button class="btn-another" id="btnAnother">Submit Another Response</button>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <p>For more info &amp; support, call <a href="tel:+233543262211">+233 54 326 2211</a> or email <a href="mailto:info@enabledability.org">info@enabledability.org</a></p>
+      <p class="tagline">It's time to move from awareness to ACTION!</p>
+    </footer>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const form = document.getElementById("visionForm");
+    const btn = form.querySelector(".btn-submit");
+    const textarea = document.getElementById("inclusiveVision");
+    const charCount = document.getElementById("charCount");
+    const toast = document.getElementById("toast");
+    const successOverlay = document.getElementById("successOverlay");
+    const btnAnother = document.getElementById("btnAnother");
+
+    textarea.addEventListener("input", () => {
+      charCount.textContent = textarea.value.length;
+    });
+
+    function showToast(message, type) {
+      toast.textContent = message;
+      toast.className = "toast " + type;
+      requestAnimationFrame(() => toast.classList.add("show"));
+      setTimeout(() => toast.classList.remove("show"), 4000);
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      btn.classList.add("loading");
+      btn.disabled = true;
+
+      const data = {
+        firstName: document.getElementById("firstName").value.trim(),
+        email: document.getElementById("email").value.trim(),
+        inclusiveVision: textarea.value.trim(),
+      };
+
+      try {
+        const res = await fetch("/api/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+
+        const result = await res.json();
+
+        if (result.success) {
+          form.style.display = "none";
+          successOverlay.classList.add("active");
+        } else {
+          showToast(result.message || "Something went wrong.", "error");
+        }
+      } catch {
+        showToast("Network error. Please check your connection.", "error");
+      } finally {
+        btn.classList.remove("loading");
+        btn.disabled = false;
+      }
+    });
+
+    btnAnother.addEventListener("click", () => {
+      form.reset();
+      charCount.textContent = "0";
+      successOverlay.classList.remove("active");
+      form.style.display = "block";
+    });
+  </script>
+</body>
+</html>
