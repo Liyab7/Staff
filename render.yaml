@@ -1,0 +1,9 @@
+# Render Blueprint – optional. You can also set Health Check Path in the dashboard.
+# Health check path: /health (set in Dashboard → Service → Health Check Path if not using Blueprint)
+services:
+  - type: web
+    name: staff
+    env: node
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health

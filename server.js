@@ -22,13 +22,20 @@ const submissionSchema = new mongoose.Schema(
 
 const Submission = mongoose.model("Submission", submissionSchema);
 
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => console.log("Connected to MongoDB"))
-  .catch((err) => console.error("MongoDB connection error:", err));
+// Health check for Render – responds immediately so the service is marked live
+app.get("/health", (req, res) => {
+  res.status(200).send("OK");
+});
 
 app.post("/api/submit", async (req, res) => {
   try {
+    if (mongoose.connection.readyState !== 1) {
+      return res.status(503).json({
+        success: false,
+        message: "Service temporarily unavailable. Please try again in a moment.",
+      });
+    }
+
     const { firstName, email, inclusiveVision } = req.body;
 
     if (!firstName || !email || !inclusiveVision) {
@@ -54,6 +61,15 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
+// Start HTTP server first so Render can route traffic immediately
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Server running on port ${PORT}`);
+
+  // Connect to MongoDB after server is up – no blocking of user requests
+  if (process.env.MONGO_URI) {
+    mongoose
+      .connect(process.env.MONGO_URI)
+      .then(() => console.log("Connected to MongoDB"))
+      .catch((err) => console.error("MongoDB connection error:", err));
+  }
 });
